@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Main {
 
-
+    public static boolean isInt, isDouble, isBigInteger, isBigDecimal;
 
     public static void main(String[] args) {
         // Press Alt+Enter with your caret at the highlighted text to see how
@@ -17,40 +17,164 @@ public class Main {
             // Press Shift+F9 to start debugging your code. We have set one breakpoint
             // for you, but you can always add more by pressing Ctrl+F8.
 
-        //Get Two of inputs
-        var num1 = Check();
-        var num2 = Check();
+        Scanner scn = new Scanner(System.in);
+
+        String num = scn.next();
+        num = num.replace(" ", "");
+
+        String operator = num.replaceAll("[0-9.]", "");
+        var numbers =  num.replaceAll("[^0-9.]", " ");
+
+        var splitNumbers = numbers.split(" ");
+
+        var num1 = Check(splitNumbers[0]);
+        var num2  = Check(splitNumbers[1]);
 
         //Calculate Logic
+        if (isBigDecimal){
 
+            BigDecimal numOne = (BigDecimal)num1;
+            BigDecimal numTwo = (BigDecimal)num2;
+
+            switch (operator){
+                case "+":
+
+                    System.out.println(numOne.add(numTwo));
+                    break;
+
+                case "-":
+
+                    System.out.println(numOne.subtract(numTwo));
+                    break;
+
+                case "*":
+                    System.out.println(numOne.multiply(numTwo));
+                    break;
+
+                case "/":
+                    System.out.println(numOne.divide(numTwo, 4, BigDecimal.ROUND_HALF_UP));
+                    break;
+            }
+
+        }
+
+        else if (isBigInteger){
+
+            BigInteger numOne = (BigInteger) num1;
+            BigInteger numTwo = (BigInteger) num2;
+
+            switch (operator){
+                case "+":
+                    System.out.println(numOne.add(numTwo));
+                    break;
+
+                case "-":
+                    System.out.println(numOne.subtract(numTwo));
+                    break;
+
+                case "*":
+                    System.out.println(numOne.multiply(numTwo));
+                    break;
+
+                case "/":
+                    System.out.println(numOne.divide(numTwo));
+                    break;
+            }
+
+
+        }
+
+        else if (isDouble){
+
+            Double numOne = (Double) num1;
+            Double numTwo = (Double) num2;
+
+            switch (operator){
+                case "+":
+                    System.out.println(numOne + numTwo);
+                    break;
+
+                case "-":
+                    System.out.println(numOne - numTwo);
+                    break;
+
+                case "*":
+                    System.out.println(numOne * numTwo);
+                    break;
+
+                case "/":
+                    System.out.println(numOne / numTwo);
+                    break;
+            }
+
+        }
+
+        else if (isInt){
+
+            Integer numOne = (Integer) num1;
+            Integer numTwo = (Integer) num2;
+
+            switch (operator){
+                case "+":
+                    System.out.println(numOne + numTwo);
+                    break;
+
+                case "-":
+                    System.out.println(numOne - numTwo);
+                    break;
+
+                case "*":
+                    System.out.println(numOne * numTwo);
+                    break;
+
+                case "/":
+                    System.out.println(numOne / numTwo);
+                    break;
+            }
+
+        }
 
 
     }
 
-    //Get inputs and Check its type
-    public static Object Check(){
+    // Check its type
+    public static Object Check(String num){
 
-        Scanner scn = new Scanner(System.in);
+        try {
+            isInt = false;
+            var number = Integer.parseInt(num);
+            isInt = true;
+            return number;
 
+        }catch(Exception e){
 
-        if (scn.hasNextInt()) {
-
-            return scn.nextInt();
         }
+        try {
+            isDouble = false;
+            var number = Double.parseDouble(num);
+            isDouble = true;
+            return number;
 
-        else if (scn.hasNextDouble()){
+        }catch(Exception e){
 
-            return scn.nextDouble();
         }
+        try {
+            isBigInteger = false;
+            var number = new BigInteger(num);
+            isBigInteger = true;
+            return number;
 
-        else if (scn.hasNextBigInteger()) {
+        }catch(Exception e){
 
-            return scn.nextBigInteger();
         }
+        try {
+            isBigDecimal = false;
+            var number = new BigDecimal(num);
+            isBigDecimal = true;
+            return number;
 
-        else if (scn.hasNextBigDecimal()) {
+        }catch(Exception e){
 
-            return scn.nextBigDecimal();
         }
 
         return null;
