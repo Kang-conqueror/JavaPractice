@@ -4,7 +4,9 @@
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Scanner;
+
 
 public class Main {
 
@@ -19,65 +21,80 @@ public class Main {
 
         Scanner scn = new Scanner(System.in);
 
-        String num = scn.next();
-        num = num.replace(" ", "");
+        String txt = scn.nextLine(); //Get Inputs,
+        String num = txt.replace(" ", ""); //delete whitespace
+        //System.out.println(num);
 
-        String operator = num.replaceAll("[0-9.]", "");
+        //Split operator and numbers
+        String operator = num.replaceAll("[^+*/-]", "");
         var numbers =  num.replaceAll("[^0-9.]", " ");
 
+
+        //System.out.println(operator);
+        //System.out.println(numbers);
+
+        //separate two numbers
         var splitNumbers = numbers.split(" ");
 
+        //System.out.println(splitNumbers);
         var num1 = Check(splitNumbers[0]);
         var num2  = Check(splitNumbers[1]);
 
-        //Calculate Logic
+//        System.out.println(num1.getClass());
+//        System.out.println(Double.valueOf((String) num2));
+
+
+
+        //Calculate Logic, BigDecimal > BigInteger > Double > Int, Check highest Type and calculate
+        //Because at check function, use Generic type, for calculate, use Optional Class Type.
         if (isBigDecimal){
 
-            BigDecimal numOne = (BigDecimal)num1;
-            BigDecimal numTwo = (BigDecimal)num2;
+            Optional<BigDecimal> numOne = Optional.ofNullable(num1).map(Object::toString).map(BigDecimal::new);
+            Optional<BigDecimal> numTwo = Optional.ofNullable(num2).map(Object::toString).map(BigDecimal::new);
 
             switch (operator){
                 case "+":
 
-                    System.out.println(numOne.add(numTwo));
+                    System.out.println(numOne.get().add(numTwo.get()));
                     break;
 
                 case "-":
 
-                    System.out.println(numOne.subtract(numTwo));
+                    System.out.println(numOne.get().subtract(numTwo.get()));
                     break;
 
                 case "*":
-                    System.out.println(numOne.multiply(numTwo));
+                    System.out.println(numOne.get().multiply(numTwo.get()));
                     break;
 
                 case "/":
-                    System.out.println(numOne.divide(numTwo, 4, BigDecimal.ROUND_HALF_UP));
+                    System.out.println(numOne.get().divide(numTwo.get(), 4, BigDecimal.ROUND_HALF_UP));
                     break;
             }
 
         }
 
         else if (isBigInteger){
-
-            BigInteger numOne = (BigInteger) num1;
-            BigInteger numTwo = (BigInteger) num2;
+            Optional<BigInteger> numOne = Optional.ofNullable(num1).map(Object::toString).map(BigInteger::new);
+            Optional<BigInteger> numTwo = Optional.ofNullable(num2).map(Object::toString).map(BigInteger::new);
+            //BigInteger numOne = (BigInteger) num1;
+            //BigInteger numTwo = (BigInteger) num2;
 
             switch (operator){
                 case "+":
-                    System.out.println(numOne.add(numTwo));
+                    System.out.println(numOne.get().add(numTwo.get()));
                     break;
 
                 case "-":
-                    System.out.println(numOne.subtract(numTwo));
+                    System.out.println(numOne.get().subtract(numTwo.get()));
                     break;
 
                 case "*":
-                    System.out.println(numOne.multiply(numTwo));
+                    System.out.println(numOne.get().multiply(numTwo.get()));
                     break;
 
                 case "/":
-                    System.out.println(numOne.divide(numTwo));
+                    System.out.println(numOne.get().divide(numTwo.get()));
                     break;
             }
 
@@ -86,24 +103,25 @@ public class Main {
 
         else if (isDouble){
 
-            Double numOne = (Double) num1;
-            Double numTwo = (Double) num2;
+            Optional<Double> numOne = Optional.ofNullable(num1).map(Object::toString).map(Double::parseDouble);
+            Optional<Double> numTwo = Optional.ofNullable(num2).map(Object::toString).map(Double::parseDouble);
+
 
             switch (operator){
                 case "+":
-                    System.out.println(numOne + numTwo);
+                    System.out.println(numOne.get() + numTwo.get());
                     break;
 
                 case "-":
-                    System.out.println(numOne - numTwo);
+                    System.out.println(numOne.get() - numTwo.get());
                     break;
 
                 case "*":
-                    System.out.println(numOne * numTwo);
+                    System.out.println(numOne.get() * numTwo.get());
                     break;
 
                 case "/":
-                    System.out.println(numOne / numTwo);
+                    System.out.println(numOne.get() / numTwo.get());
                     break;
             }
 
@@ -111,24 +129,24 @@ public class Main {
 
         else if (isInt){
 
-            Integer numOne = (Integer) num1;
-            Integer numTwo = (Integer) num2;
+            Optional<Integer> numOne = Optional.ofNullable(num1).map(Object::toString).map(Integer::parseInt);
+            Optional<Integer> numTwo = Optional.ofNullable(num2).map(Object::toString).map(Integer::parseInt);
 
             switch (operator){
                 case "+":
-                    System.out.println(numOne + numTwo);
+                    System.out.println(numOne.get() + numTwo.get());
                     break;
 
                 case "-":
-                    System.out.println(numOne - numTwo);
+                    System.out.println(numOne.get() - numTwo.get());
                     break;
 
                 case "*":
-                    System.out.println(numOne * numTwo);
+                    System.out.println(numOne.get() * numTwo.get());
                     break;
 
                 case "/":
-                    System.out.println(numOne / numTwo);
+                    System.out.println(numOne.get() / numTwo.get());
                     break;
             }
 
@@ -137,41 +155,50 @@ public class Main {
 
     }
 
-    // Check its type
-    public static Object Check(String num){
+    // Check its type and return it
+    public static <T> T Check(String num){
 
         try {
             isInt = false;
-            var number = Integer.parseInt(num);
-            isInt = true;
-            return number;
+            Integer number = Integer.parseInt(num);
+            if(!isDouble && !isBigInteger && !isBigDecimal){
+                isInt = true;
+            }
+
+            return (T) number;
 
         }catch(Exception e){
 
         }
         try {
             isDouble = false;
-            var number = Double.parseDouble(num);
-            isDouble = true;
-            return number;
+            Double number = Double.parseDouble(num);
+            if(!isBigInteger && !isBigDecimal){
+                isDouble = true;
+            }
+
+            return (T) number;
 
         }catch(Exception e){
 
         }
         try {
             isBigInteger = false;
-            var number = new BigInteger(num);
-            isBigInteger = true;
-            return number;
+            BigInteger number = new BigInteger(num);
+            if(!isBigDecimal){
+                isBigInteger = true;
+            }
+
+            return (T) number;
 
         }catch(Exception e){
 
         }
         try {
             isBigDecimal = false;
-            var number = new BigDecimal(num);
+            BigDecimal number = new BigDecimal(num);
             isBigDecimal = true;
-            return number;
+            return (T) number;
 
         }catch(Exception e){
 
