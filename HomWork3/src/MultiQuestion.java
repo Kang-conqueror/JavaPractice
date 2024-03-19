@@ -29,7 +29,9 @@ public class MultiQuestion extends Question{
 
         }
 
-        return answerCount == answer.length;
+        return answerCount == answer.length / 2;
     }
+
+    int[] a = new int[]{};
 
 }

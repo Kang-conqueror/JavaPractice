@@ -16,8 +16,8 @@ public class Question {
 
         this.text = text;
         this.options = options;
-        System.out.println(text);
-        System.out.println(Arrays.toString(options));
+        System.out.println(this.text);
+        System.out.println(Arrays.toString(this.options));
 
     }
 
@@ -35,5 +35,7 @@ public class Question {
         System.out.println("还得努力呀！");
 
     }
+
+
 
 }
