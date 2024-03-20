@@ -32,6 +32,19 @@ public class MultiQuestion extends Question{
         return answerCount == answer.length / 2;
     }
 
-    int[] a = new int[]{};
+    @Override
+    public void print(){
+        super.print();
+
+        String input = super.scanner.nextLine();
+
+        if (Check(input.toCharArray())){
+            System.out.println("恭喜，大对了！");
+        }
+
+        else{
+            System.out.println("还得努力呀！");
+        }
+    }
 
 }

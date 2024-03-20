@@ -1,8 +1,11 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Question {
+
+    Scanner scanner = new Scanner(System.in);
 
     String text;
 
@@ -16,8 +19,7 @@ public class Question {
 
         this.text = text;
         this.options = options;
-        System.out.println(this.text);
-        System.out.println(Arrays.toString(this.options));
+
 
     }
 
@@ -31,8 +33,9 @@ public class Question {
 
     public void print(){
 
-        System.out.println("恭喜，答对了！");
-        System.out.println("还得努力呀！");
+        System.out.println(this.text);
+        System.out.println(Arrays.toString(this.options));
+        System.out.print("答案: ");
 
     }
 
