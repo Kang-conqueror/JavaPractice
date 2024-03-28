@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class StringArray implements Table {
 
 
@@ -5,6 +7,12 @@ public class StringArray implements Table {
     public int infoLength = 4;
 
     public String[][] Students = new String[studentLength][infoLength];
+
+
+    public void getSource(String[][] sourceInfo){
+        Students = Arrays.copyOf(sourceInfo, sourceInfo.length);
+    }
+
 
     @Override
     public void printStudents(){

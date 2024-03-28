@@ -23,7 +23,7 @@ public class Main {
         }
 
         StringArray stringArray = new StringArray();
-        stringArray.Students = Arrays.copyOf(sourceInfo, sourceInfo.length);
+        stringArray.getSource(sourceInfo);
 
 
         System.out.println("ID    NAME      GENDER  AGE");
