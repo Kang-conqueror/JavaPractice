@@ -55,6 +55,7 @@ public class Main {
             String str = scn.next();
             if (Objects.equals(str, "end")) break;
 
+<<<<<<< Updated upstream
             try {
                 String[] strInput = str.split(",");
                 if (strInput.length != dimension){
@@ -72,6 +73,8 @@ public class Main {
                 System.out.println("Input error");
                 return;
             }
+=======
+>>>>>>> Stashed changes
         }
 
         while (true){
